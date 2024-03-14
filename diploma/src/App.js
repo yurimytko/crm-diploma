@@ -1,23 +1,47 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
+import { SignPage } from './pages/signPage/signPage';
+import { DashBoard } from './pages/Dashboard/dashBoard';
+import refreshToken from './service/refresh.service';
 
 function App() {
+  const [token, setToken] = useState(null);
+  const [decodedToken, setDecodedToken] = useState(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(JSON.parse(storedToken).token);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      const decoded = jwtDecode(token);
+      setDecodedToken(decoded);
+      console.log(decoded);
+    }
+  }, [token]);
+
+  const refresh = async () => {
+    try {
+      if (token) {
+        await refreshToken.refresh(token);
+      }
+    } catch (error) {}
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="/dashboard" element={<DashBoard decode={decodedToken} />} />
+          <Route path="/sign-in" element={<SignPage />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

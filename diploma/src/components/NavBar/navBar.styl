@@ -1,0 +1,53 @@
+.nav_bar
+    background: #1F2833;
+    height: 100vh
+    width: 5vw
+    display: flex
+    flex-direction: column
+    align-items: center
+.logo
+    margin 6vh 0 10vh 0
+    height: 6vh
+    width: 6vh
+    background: white
+    border-radius: 50%
+.link_con
+    cursor: pointer
+    transition: 0.2s
+    position relative
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 100%
+    height: 7vh
+.left_border
+    opacity 0
+    transition: 0.2s
+    position: absolute
+    left 0
+    height: 100%
+    width: 0.15vw
+    background: #66FCF1
+.def_img
+    position: absolute
+    width: 2vw  
+.act_img
+    width: 2vw  
+.contract
+    width: 1.5vw
+.contract_act
+    width: 1.5vw
+
+.link_con:hover
+     background: linear-gradient(90deg, rgba(69, 162, 158, 0.30) 0%, rgba(217, 217, 217, 0.00) 100%);
+.link_con:hover > .left_border
+    opacity 1
+.link_con:hover > .def_img
+    opacity 0
+
+.active
+    background: linear-gradient(90deg, rgba(69, 162, 158, 0.30) 0%, rgba(217, 217, 217, 0.00) 100%);
+.active>.left_border
+    opacity 1
+.active>.def_img
+    opacity 0
