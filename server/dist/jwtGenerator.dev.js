@@ -3,7 +3,7 @@
 var jwt = require('jsonwebtoken');
 
 var generateToken = function generateToken(user) {
-  var expiresIn = 900;
+  var expiresIn = 30;
   var payload = {
     id: user.id,
     admin_id: user.admin_id !== undefined ? user.admin_id : user.id,

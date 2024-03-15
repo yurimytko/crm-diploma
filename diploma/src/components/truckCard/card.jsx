@@ -25,12 +25,12 @@ export function TruckCard({data, fetchData}){
 
     useEffect(() => {
         if(trucks){
-            // if(trucks.status === 'Доступний'){
-            //     status.current.style.color = '#5DE2D9'
-            // }
-            // if(trucks.status === 'Не доступний'){
-            //     status.current.style.color = '#FE3232'
-            // }
+            if(trucks.status === 'Доступний'){
+                status.current.style.color = '#5DE2D9'
+            }
+            if(trucks.status === 'Не доступний'){
+                status.current.style.color = '#FE3232'
+            }
             if(trucks.isfavorite === true){
                 favorite.current.style.opacity = '1'
             }
@@ -67,12 +67,7 @@ export function TruckCard({data, fetchData}){
         <div className="truck_card">
             <div className="img_con">
                 {trucks && (
-                    <LazyLoadImage
-                    src={`http://localhost:8000//${trucks.picture}`}
-                    alt=""
-                    className="truck_img"
-                    effect="blur"  // Эффект размытия при загрузке (опционально)
-                    />
+                    <LazyLoadImage src={`http://localhost:8000//${trucks.picture}`} alt=""className="truck_img"effect="blur"/>  // Эффект размытия при загрузке (опционально)/>
                 )}
                 <div className="fav_truck_con" onClick={favUp}>
                     <img className="truck_fav" src="./img/truck_fav.svg" alt="" />
@@ -84,6 +79,31 @@ export function TruckCard({data, fetchData}){
                     <div className="add_set_btn up">Редагувати</div>
                         <div className="add_set_btn del" onClick={deleteTruck}>Видалити</div>
                     </div>
+                </div>
+            </div>
+            <div className="truck_brand">
+                {trucks.brand}
+            </div>
+            <div className="info_block">
+                <div className="truck_info">
+                    <p className="truck_info_punkt">Модель</p>
+                    <div className="truck_line"></div>
+                    <p>{trucks.model}</p>
+                </div>
+                <div className="truck_info">
+                    <p className="truck_info_punkt">Номера</p>
+                    <div className="truck_line"></div>
+                    <p>{trucks.license}</p>
+                </div>
+                <div className="truck_info">
+                    <p className="truck_info_punkt">Статус</p>
+                    <div className="truck_line"></div>
+                    <p className="tuck_status" ref={status}>{trucks.status}</p>
+                </div>
+                <div className="truck_info">
+                    <p className="truck_info_punkt">Пальне</p>
+                    <div className="truck_line"></div>
+                    <p>{trucks.fuel_type}</p>
                 </div>
             </div>
         </div>
