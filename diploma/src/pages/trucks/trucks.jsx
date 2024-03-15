@@ -5,6 +5,7 @@ import truckServices from "../../service/truckService";
 
 import "./dist/trucks.css"
 import { TruckCard } from "../../components/truckCard/card";
+import { TrucksAdd } from "../../components/trucksAdd/truckAdd";
 
 export function TrucksPage({decode}){
 
@@ -14,8 +15,6 @@ export function TrucksPage({decode}){
     const [originalTrucksData, setOriginalTrucksData] = useState([null]);
     const [fav,setFav] = useState(false);
     const [page,setPage] = useState(1)
-    const [total, setTotal] = useState()
-
     const trucksContainerRef = useRef(null);
 
   
@@ -73,7 +72,6 @@ export function TrucksPage({decode}){
             } else {
               setTrucks(prevTrucks => [...prevTrucks, ...response.data.data]);
               setOriginalTrucksData(prevTrucks => [...prevTrucks, ...response.data.data]);
-              setTotal(response.data.totalPages)
 
             }
             console.log(response.data.data);
@@ -96,6 +94,26 @@ export function TrucksPage({decode}){
         };
 
       }, [decode, page]);
+
+
+      const openTruckAdd = () => {
+        const trucksAddElement = document.getElementById('trucks_add');
+
+        trucksAddElement.style.display = 'flex';
+          
+        setTimeout(() => {
+          trucksAddElement.style.opacity = '1';
+          document.getElementById("add_menu_truck").style.transform = "scale(1)"
+
+            
+        }, 100);
+    
+
+
+
+      
+
+      };
 
     const sortedData = trucks?.slice().sort((a, b) => a.id - b.id);
 
@@ -130,7 +148,7 @@ export function TrucksPage({decode}){
                             <img  src="./img/fav_active.svg" alt="" />
 
                         </div>
-                        <div className="add_con">
+                        <div className="add_con" onClick={openTruckAdd}>
                             <img src="./img/add.svg" alt="" />
                         </div>
                     </div>
@@ -144,6 +162,10 @@ export function TrucksPage({decode}){
                         <p>No trucks available</p>
                     )}
                 </div>
+            </div>
+
+            <div id="trucks_add" className="black_block">
+              <TrucksAdd/>
             </div>
         </div>
     )
