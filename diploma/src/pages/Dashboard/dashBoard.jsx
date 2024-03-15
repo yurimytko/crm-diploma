@@ -7,11 +7,11 @@ import { TruckDashCard } from "../../components/dashTruck/card";
 
 export function DashBoard({ decode }) {
   const user = decode;
-  const [trucks, setTrucks] = useState([]);
+  const [trucks, setTrucks] = useState(null);
 
   const fetchData = async () => {
     try {
-      const response = await truckServices.getTrucks(user.admin_id);
+      const response = await truckServices.getTrucks(user.admin_id,1);
       setTrucks(response.data.data);
     } catch (error) {
       console.log(error);
@@ -20,6 +20,7 @@ export function DashBoard({ decode }) {
 
   useEffect(() => {
     fetchData();
+
   }, [decode]);
 
   return (

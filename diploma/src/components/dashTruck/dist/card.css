@@ -9,13 +9,13 @@
   box-sizing: border-box;
   border-radius: 0.7vh;
 }
-.img_con {
+.img_con_d {
   width: 5vh;
   height: 5vh;
   overflow: hidden;
   border-radius: 0.5vh;
 }
-.truck_img {
+.truck_img_d {
   height: 100%;
   width: 130%;
 }

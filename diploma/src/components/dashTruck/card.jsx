@@ -13,12 +13,12 @@ export function TruckDashCard({truck}){
 
     return(
         <div className="card">
-            <div className="img_con">
+            <div className="img_con_d">
                 {truck && (
                     <LazyLoadImage
                     src={`http://localhost:8000//${truck.picture}`}
                     alt=""
-                    className="truck_img"
+                    className="truck_img_d"
                     effect="blur"  // Эффект размытия при загрузке (опционально)
                     />
                 )}

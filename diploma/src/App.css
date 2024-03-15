@@ -10,3 +10,7 @@
 }
 
 
+::selection {
+  background: #DCBA61; /* Safari */
+  }
+

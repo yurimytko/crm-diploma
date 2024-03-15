@@ -5,6 +5,7 @@ import './App.css';
 import { SignPage } from './pages/signPage/signPage';
 import { DashBoard } from './pages/Dashboard/dashBoard';
 import refreshToken from './service/refresh.service';
+import { TrucksPage } from './pages/trucks/trucks';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -40,6 +41,7 @@ function App() {
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<DashBoard decode={decodedToken} />} />
           <Route path="/sign-in" element={<SignPage />} />
+          <Route path="/trucks" element={<TrucksPage decode={decodedToken}/>}/>
         </Routes>
       </Router>
     </div>

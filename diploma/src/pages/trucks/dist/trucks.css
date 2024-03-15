@@ -1,0 +1,104 @@
+.trucks_page {
+  width: 100%;
+  display: flex;
+}
+.trucks_work_space {
+  overflow: hidden;
+  width: 100%;
+  padding: 3vh 3vw 0 3vw;
+  box-sizing: border-box;
+}
+.search {
+  color: rgba(69,162,158,0.7);
+  position: relative;
+  font-family: Inter;
+  font-size: 1.5vh;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  box-sizing: border-box;
+  padding-left: 1vw;
+  outline: none;
+  background: none;
+  width: 15vw;
+  height: 6vh;
+  border-radius: 1vh;
+  border: 0.4vh solid #6cf3e9;
+}
+.search::placeholder {
+  color: rgba(69,162,158,0.7);
+  font-family: Inter;
+  font-size: 1.5vh;
+}
+.search_control_panel {
+  user-select: none;
+  margin-top: 6vh;
+  display: flex;
+  justify-content: space-between;
+}
+.search_con {
+  display: flex;
+  gap: 2vw;
+}
+.filter_con {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5.5vh;
+  width: 5.5vh;
+  border-radius: 1vh;
+  border: 0.4vh solid #6cf3e9;
+}
+.favorite_con {
+  transition: 0.2s;
+  position: relative;
+  background: #1f2833;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5.5vh;
+  width: 5.5vh;
+  border-radius: 1vh;
+  border: 0.4vh solid #6cf3e9;
+}
+.fav_control {
+  transition: 0.2s;
+  position: absolute;
+}
+.favorite_con:hover {
+  border: 0.4vh solid #1f2833 !important;
+  background: #6cf3e9 !important;
+}
+.favorite_con:hover .fav_control {
+  opacity: 0 !important;
+}
+.add_con {
+  background: #1f2833;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5.5vh;
+  width: 5.5vh;
+  border-radius: 1vh;
+  border: 0.4vh solid #6cf3e9;
+}
+.control_con {
+  display: flex;
+  gap: 2vw;
+}
+.trucks_con {
+  box-sizing: border-box;
+  padding: 0 4.1vw 3.5vh 4.1vw;
+  height: 72.8vh;
+  overflow-y: scroll;
+  margin: 5vh 0 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5vh;
+}
+.trucks_con::-webkit-scrollbar {
+  display: none /* width of the entire scrollbar */;
+}

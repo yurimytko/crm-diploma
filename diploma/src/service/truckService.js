@@ -31,8 +31,8 @@ const postTrucks = (
     }
 
 
-    const getTrucks = (id) => {
-        return axios.get(API_URl + `/gets/${id}`, {
+    const getTrucks = (id,page) => {
+        return axios.get(API_URl + `/gets/${id}?page=${page}&limit=8`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": JSON.parse(localStorage.getItem('token')).token

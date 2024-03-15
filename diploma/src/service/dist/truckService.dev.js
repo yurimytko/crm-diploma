@@ -28,8 +28,8 @@ var postTrucks = function postTrucks(brand, model, license, picture, fuel_type, 
   });
 };
 
-var getTrucks = function getTrucks(id) {
-  return _axios["default"].get(API_URl + "/gets/".concat(id), {
+var getTrucks = function getTrucks(id, page) {
+  return _axios["default"].get(API_URl + "/gets/".concat(id, "?page=").concat(page, "&limit=8"), {
     headers: {
       "Content-Type": "application/json",
       "Authorization": JSON.parse(localStorage.getItem('token')).token
