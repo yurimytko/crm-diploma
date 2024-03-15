@@ -38,7 +38,7 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/" element={<Navigate to={localStorage.getItem("token") ? "/dashboard" : "/sign-in"} />} />
           <Route path="/dashboard" element={<DashBoard decode={decodedToken} />} />
           <Route path="/sign-in" element={<SignPage />} />
           <Route path="/trucks" element={<TrucksPage decode={decodedToken}/>}/>
