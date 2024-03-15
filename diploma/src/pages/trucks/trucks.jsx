@@ -55,11 +55,10 @@ export function TrucksPage({decode}){
       }
 
 
-
       useEffect(() => {
         const handleScroll = () => {
           const { scrollTop, clientHeight, scrollHeight } = trucksContainerRef.current;
-          if (scrollTop + clientHeight >= scrollHeight && page < total) {
+          if (scrollTop + clientHeight >= scrollHeight) {
             console.log('Низ блока достигнут');
             setPage(prevPage => prevPage + 1); // Увеличение значения page на 1
           }
@@ -67,19 +66,15 @@ export function TrucksPage({decode}){
     
         const fetchData = async () => {
           try {
-            if (total && page > total) {
-              return; // Не отправлять запрос, если page превышает total
-            }
-            
             const response = await truckServices.getTrucks(user.admin_id, page);
             if (page === 1) {
               setTrucks(response.data.data);
-              setOriginalTrucksData(response.data.data);
-              setTotal(response.data.totalPages);
+              setOriginalTrucksData(response.data.data)
             } else {
               setTrucks(prevTrucks => [...prevTrucks, ...response.data.data]);
               setOriginalTrucksData(prevTrucks => [...prevTrucks, ...response.data.data]);
-              setTotal(response.data.totalPages);
+              setTotal(response.data.totalPages)
+
             }
             console.log(response.data.data);
           } catch (error) {
@@ -92,13 +87,15 @@ export function TrucksPage({decode}){
         }
     
         fetchData();
+
     
         return () => {
           if (trucksContainerRef.current) {
             trucksContainerRef.current.removeEventListener('scroll', handleScroll);
           }
         };
-      }, [page]);
+
+      }, [decode, page]);
 
     const sortedData = trucks?.slice().sort((a, b) => a.id - b.id);
 
