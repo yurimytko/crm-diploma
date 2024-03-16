@@ -4,6 +4,11 @@ import "./dist/truckAdd.css"
 
 export function TrucksAdd(){
     const [file, setFile] = useState()
+    const [drop, setDrop] = useState(false)
+    const [fuel, setFuel] = useState("Оберіть тип пального")
+    const [brand, setBrand] = useState('')
+    const [model, setModel] = useState('')
+    const [license, setLicense] = useState('')
 
 
 
@@ -11,6 +16,59 @@ export function TrucksAdd(){
         const selectedFile = e.target.files[0];
         setFile(selectedFile); 
         console.log(file)
+    };
+
+
+    const closeTruckAdd = () => {
+        const trucksAddElement = document.getElementById('trucks_add');
+
+        trucksAddElement.style.opacity = '0';
+        document.getElementById("add_menu_truck").style.transform = "scale(0.8)"
+
+        document.getElementById("drop").style.height = "0vh"
+
+        setDrop(false)  
+        setTimeout(() => {
+
+
+        trucksAddElement.style.display = 'none';
+        setFile(null)
+        setFuel("Оберіть тип пального")
+        setBrand('')
+        setModel('')
+        setLicense('')
+
+
+            
+        }, 500);
+    
+    }
+
+    const dropDown = () => {
+        if(drop === false){
+            document.getElementById("drop").style.height = "10vh"
+            setDrop(true)
+        } else{
+            document.getElementById("drop").style.height = "0vh"
+            setDrop(false)
+        }
+    }
+
+
+    const fuelChange = (event) => {
+        setFuel(event.target.textContent);
+      };
+    const brandChange = (event) => {
+        setBrand(event.target.value);
+        console.log(event.target.value);
+    };
+    const modelChange = (event) => {
+        setModel(event.target.value);
+        console.log(event.target.value);
+    };
+    const licenseChange = (event) => {
+        setLicense(event.target.value);
+        console.log(event.target.value);
     };
 
     return(
@@ -33,19 +91,26 @@ export function TrucksAdd(){
 
                 
             <div className="barnd_model_inputs">
-                <input className="trucks_inputs" placeholder="Марка" type="text" />
-                <input  className="trucks_inputs" placeholder="Модель"type="text" />
+                <input className="trucks_inputs" value={brand} onChange={brandChange} placeholder="Марка" type="text" />
+                <input  className="trucks_inputs" onChange={modelChange} value={model} placeholder="Модель"type="text" />
 
 
             </div>
             <div className="license_fuel_inputs">
-                <input className="trucks_inputs" placeholder="Марка" type="text" />
-                <input  className="trucks_inputs" placeholder="Модель"type="text" />
+                <input className="trucks_inputs" onChange={licenseChange} value={license} placeholder="Номера" type="text" />
+                <div onClick={dropDown} className="trucks_inputs dropdown"type="text">
+                    {fuel}
+                    <div id = "drop" className="drop">
+                        <p className="drop_text" onClick={fuelChange}>Бензин</p>
+                        <p className="drop_text" onClick={fuelChange}>Дизель</p>
+
+                    </div>
+                </div>
             </div>
 
             <div className="btn_group">
-                <div className="truck_btn exit"></div>
-                <div className="truck_btn add"></div>
+                <div className="truck_btn exit" onClick={closeTruckAdd}>Відмінити</div>
+                <div className="truck_btn add">Зберегти</div>
 
             </div>
 
