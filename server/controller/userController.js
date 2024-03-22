@@ -56,6 +56,17 @@ class trucksController{
           res.status(500).json({ error: "Internal Server Error" });
         }
       }
+
+    async getTrucks(req, res){
+        const { id } = req.params;
+        try{
+            const truck = await db.query("SELECT * FROM trucks WHERE admin_id = $1", [id])
+            res.json(truck.rows);
+        }catch(e){
+            res.status(500).json({ error: "Internal Server Error" });
+
+        }
+    }
     
 
       async getTruck(req, res) {

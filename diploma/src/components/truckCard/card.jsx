@@ -13,13 +13,14 @@ export function TruckCard({data, fetchData}){
 
     const status = useRef()
     const favorite = useRef()
+    const card = useRef()
 
     const [fav,setFav] = useState(trucks.isfavorite)
 
     const deleteTruck = async() =>{
         const response = await truckServices.deleteTruck(trucks.id)
         console.log(response)
-        await fetchData()
+        card.current.style.display = "none"
     }
 
 
@@ -64,7 +65,7 @@ export function TruckCard({data, fetchData}){
 
 
     return(
-        <div className="truck_card">
+        <div ref={card} className="truck_card">
             <div className="img_con">
                 {trucks && (
                     <LazyLoadImage src={`http://localhost:8000//${trucks.picture}`} alt=""className="truck_img"effect="blur"/>  // Эффект размытия при загрузке (опционально)/>

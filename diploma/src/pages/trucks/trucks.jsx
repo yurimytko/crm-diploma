@@ -6,6 +6,7 @@ import truckServices from "../../service/truckService";
 import "./dist/trucks.css"
 import { TruckCard } from "../../components/truckCard/card";
 import { TrucksAdd } from "../../components/trucksAdd/truckAdd";
+import { Preloader } from "../../components/preloader/preloader";
 
 export function TrucksPage({decode}){
 
@@ -15,6 +16,7 @@ export function TrucksPage({decode}){
     const [originalTrucksData, setOriginalTrucksData] = useState([null]);
     const [fav,setFav] = useState(false);
     const [page,setPage] = useState(1)
+    const [totalPages,setTotalPages] = useState()
     const trucksContainerRef = useRef(null);
 
   
@@ -25,6 +27,8 @@ export function TrucksPage({decode}){
           setTrucks(response.data.data);
           setOriginalTrucksData(response.data.data);
           console.log(response.data)
+          setTotalPages(response.data.totalPages)
+          return response.data
         } catch (error) {
           console.log(error);
         } 
@@ -54,46 +58,99 @@ export function TrucksPage({decode}){
       }
 
 
-      useEffect(() => {
-        const handleScroll = () => {
-          const { scrollTop, clientHeight, scrollHeight } = trucksContainerRef.current;
-          if (scrollTop + clientHeight >= scrollHeight) {
-            console.log('Низ блока достигнут');
-            setPage(prevPage => prevPage + 1); // Увеличение значения page на 1
-          }
-        };
-    
-        const fetchData = async () => {
-          try {
-            const response = await truckServices.getTrucks(user.admin_id, page);
-            if (page === 1) {
-              setTrucks(response.data.data);
-              setOriginalTrucksData(response.data.data)
-            } else {
-              setTrucks(prevTrucks => [...prevTrucks, ...response.data.data]);
-              setOriginalTrucksData(prevTrucks => [...prevTrucks, ...response.data.data]);
 
-            }
-            console.log(response.data.data);
-          } catch (error) {
-            console.log(error);
-          } 
-        };
-    
+
+      const handleScroll = async () => {
+        const { scrollTop, clientHeight, scrollHeight } = trucksContainerRef.current;
+        if (scrollTop + clientHeight >= scrollHeight && page < totalPages) {
+            console.log('Низ блока достигнут');
+            setPage(prevPage => prevPage + 1); 
+        }
+    };
+
+
+      useEffect(()=> {
         if (trucksContainerRef.current) {
           trucksContainerRef.current.addEventListener('scroll', handleScroll);
-        }
-    
-        fetchData();
-
-    
+        }      
         return () => {
           if (trucksContainerRef.current) {
             trucksContainerRef.current.removeEventListener('scroll', handleScroll);
           }
         };
+      })
 
-      }, [decode, page]);
+
+      useEffect(() => {
+        const fetchDataOnScroll = async () => {
+            try {
+                const response = await truckServices.getTrucks(user.admin_id, page);
+                if (Array.isArray(response.data.data)) {
+                    setTrucks(prevTrucks => [...prevTrucks, ...response.data.data]); // добавляем данные к существующим данным
+                    setOriginalTrucksData(prevOriginalTrucksData => [...prevOriginalTrucksData, ...response.data.data]);
+                    console.log(trucks)
+                } else {
+                    console.error("response.data.data is not an array");
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+    
+        if (page > 1) { // если страница больше 1, это значит, что произошла прокрутка и нужно загрузить новые данные
+            fetchDataOnScroll();
+        }
+        if(page ===1){
+          fetchData()
+        }
+    }, [page]);
+
+
+
+      useEffect(() => {
+
+        fetchData()
+        // handleScroll()
+        // const handleScroll = () => {
+        //   const { scrollTop, clientHeight, scrollHeight } = trucksContainerRef.current;
+        //   if (scrollTop + clientHeight >= scrollHeight && page < totalPages) {
+        //     console.log('Низ блока достигнут');
+        //     setPage(prevPage => prevPage + 1); // Увеличение значения page на 1
+        //   }
+        // };
+      
+        // const fetchData = async () => {
+        //   try {
+        //     if (page <= totalPages) {
+        //       const response = await truckServices.getTrucks(user.admin_id, page);
+        //       if (page === 1) {
+        //         setTrucks(response.data.data);
+        //         setOriginalTrucksData(response.data.data);
+        //         setTotalPages(response.data.totalPages);
+        //         console.log(response.data);
+        //       } else {
+        //         setTrucks(prevTrucks => [...prevTrucks, ...response.data.data]);
+        //         setOriginalTrucksData(prevTrucks => [...prevTrucks, ...response.data.data]);
+        //       }
+        //       console.log(response.data.data);
+        //     }
+        //   } catch (error) {
+        //     console.log(error);
+        //   } 
+        // };
+      
+        // if (trucksContainerRef.current) {
+        //   trucksContainerRef.current.addEventListener('scroll', handleScroll);
+        // }
+      
+        // fetchData();
+      
+        // return () => {
+        //   if (trucksContainerRef.current) {
+        //     trucksContainerRef.current.removeEventListener('scroll', handleScroll);
+        //   }
+        // };
+      }, [decode]);
 
 
       const openTruckAdd = () => {
@@ -115,7 +172,7 @@ export function TrucksPage({decode}){
 
       };
 
-    const sortedData = trucks?.slice().sort((a, b) => a.id - b.id);
+    const sortedData = trucks?.sort((a, b) => a.id - b.id);
 
     return(
         <div className="trucks_page">
@@ -138,9 +195,6 @@ export function TrucksPage({decode}){
                 <div className="search_control_panel">
                     <div className="search_con">
                         <input placeholder="пошук" type="text" className="search"/>
-                        <div className="filter_con">
-                            <img src="./img/filter.svg" alt="" />
-                        </div>
                     </div>
                     <div className="control_con">
                         <div id="favorite_con" onClick={onFavorite}  className="favorite_con">
@@ -154,18 +208,20 @@ export function TrucksPage({decode}){
                     </div>
                 </div>
                 <div className="trucks_con" ref={trucksContainerRef}>
-                    {sortedData && sortedData.length > 0 ? (
-                        sortedData.map((truck, index) => (
+                {!sortedData ? (
+                    <Preloader/>
+                ) : sortedData.length > 0 ? (
+                    sortedData.map((truck, index) => (
                         <TruckCard key={index} fetchData={fetchData} data={truck} index={index} />
-                        ))
-                    ) : (
-                        <p>No trucks available</p>
-                    )}
+                    ))
+                ) : (
+                    <p>No trucks available</p>
+                )}
                 </div>
             </div>
 
             <div id="trucks_add" className="black_block">
-              <TrucksAdd/>
+              <TrucksAdd decode = {decode} fetchData ={fetchData}/>
             </div>
         </div>
     )

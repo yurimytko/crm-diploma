@@ -1,4 +1,5 @@
 .truck_add_menu {
+  position: relative;
   transition: 0.5s;
   transform: scale(0.9);
   border-radius: 1vh;

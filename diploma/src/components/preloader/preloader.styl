@@ -1,0 +1,29 @@
+.preloader
+    position: absolute
+    top 0
+    left 0
+    width: 100%
+    height: 100%
+    background: #1f28339d
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: column
+
+.loader_text
+    color #45a29e
+
+.spinner {
+   width: 56px;
+   height: 56px;
+   border: 11.2px #45a29e double;
+   border-left-style: solid;
+   border-radius: 50%;
+   animation: spinner-aib1d7 0.75s infinite linear;
+}
+
+@keyframes spinner-aib1d7 {
+   to {
+      transform: rotate(360deg);
+   }
+}

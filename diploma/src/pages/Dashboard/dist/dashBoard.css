@@ -74,6 +74,7 @@
   justify-content: space-between;
 }
 .truck_menu {
+  position: relative;
   padding: 3vh 0;
   box-sizing: border-box;
   overflow-y: scroll;

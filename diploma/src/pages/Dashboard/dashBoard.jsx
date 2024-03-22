@@ -3,6 +3,7 @@ import "./dist/dashBoard.css";
 import { NavBar } from "../../components/NavBar/navBar";
 import truckServices from "../../service/truckService";
 import { TruckDashCard } from "../../components/dashTruck/card";
+import { Preloader } from "../../components/preloader/preloader";
 
 
 export function DashBoard({ decode }) {
@@ -54,7 +55,7 @@ export function DashBoard({ decode }) {
                   <TruckDashCard key={truck.id} truck={truck} />
                 ))
               ) : (
-                <p>No trucks available</p>
+                <Preloader/>
               )}
             </div>
             <div className="notification_menu"></div>

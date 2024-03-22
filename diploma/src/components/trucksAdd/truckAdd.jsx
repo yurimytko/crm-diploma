@@ -1,14 +1,22 @@
 import React,{useState} from "react";
 
-import "./dist/truckAdd.css"
 
-export function TrucksAdd(){
+import truckServices from "../../service/truckService";
+
+import "./dist/truckAdd.css"
+import { Preloader } from "../preloader/preloader";
+
+export function TrucksAdd({decode, fetchData}){
+
+    const user = decode
+
     const [file, setFile] = useState()
     const [drop, setDrop] = useState(false)
     const [fuel, setFuel] = useState("Оберіть тип пального")
     const [brand, setBrand] = useState('')
     const [model, setModel] = useState('')
     const [license, setLicense] = useState('')
+    const [loading, setLoading] = useState(false);
 
 
 
@@ -71,6 +79,21 @@ export function TrucksAdd(){
         console.log(event.target.value);
     };
 
+
+    const addTruck = async () => {
+        setLoading(true); // Установить состояние загрузки данных в true
+        try {
+            const response = await truckServices.postTrucks(brand, model, license, file, fuel, user.admin_id);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Ошибка:', error);
+        } finally {
+            setLoading(false); 
+            closeTruckAdd();
+            window.location.reload()
+        }
+    };
+
     return(
         <div id="add_menu_truck" className="truck_add_menu">
 
@@ -110,11 +133,11 @@ export function TrucksAdd(){
 
             <div className="btn_group">
                 <div className="truck_btn exit" onClick={closeTruckAdd}>Відмінити</div>
-                <div className="truck_btn add">Зберегти</div>
+                <div className="truck_btn add" onClick={addTruck}>Зберегти</div>
 
             </div>
-
-
+            {loading && <Preloader/>}
+            {/* {loading && <Preloader />} */}
         </div>
     )
 }
