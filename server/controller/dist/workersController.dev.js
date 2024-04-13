@@ -40,8 +40,7 @@ function () {
                 picture = file.SaveFile(req.files.picture);
               }
 
-              defaultStatus = status || "Працює"; // Check if the email already exists in the database
-
+              defaultStatus = status || "Працює";
               _context.next = 7;
               return regeneratorRuntime.awrap(db.query("SELECT * FROM workers WHERE email = $1", [email]));
 
@@ -130,7 +129,7 @@ function () {
               }
 
               return _context2.abrupt("return", res.status(404).json({
-                error: "Workers not found"
+                error: "Worker not found"
               }));
 
             case 7:
@@ -301,6 +300,37 @@ function () {
             case 11:
             case "end":
               return _context6.stop();
+          }
+        }
+      }, null, null, [[0, 8]]);
+    }
+  }, {
+    key: "getFavWorkers",
+    value: function getFavWorkers(req, res) {
+      var id, workers;
+      return regeneratorRuntime.async(function getFavWorkers$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.prev = 0;
+              id = req.params.id;
+              _context7.next = 4;
+              return regeneratorRuntime.awrap(db.query("SELECT * FROM workers WHERE admin_id = $1 AND isfavorite = true", [id]));
+
+            case 4:
+              workers = _context7.sent;
+              res.json(workers.rows);
+              _context7.next = 11;
+              break;
+
+            case 8:
+              _context7.prev = 8;
+              _context7.t0 = _context7["catch"](0);
+              res.status(500).json(_context7.t0);
+
+            case 11:
+            case "end":
+              return _context7.stop();
           }
         }
       }, null, null, [[0, 8]]);

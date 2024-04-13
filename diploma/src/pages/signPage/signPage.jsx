@@ -27,10 +27,13 @@ export function SignPage(){
         try {
             const response = await loginService.login(email, password);
             console.log(response);
-            window.location.href = "/";
         } catch (error) {
             console.error('Error fetching data:', error);
             setError("Email або пароль неправильні");
+        }
+        finally{
+            window.location.href = "/";
+
         }
     };
 
@@ -38,8 +41,8 @@ export function SignPage(){
 
 
     return(
-        <div className="sign_page">
-            <div className="sign_in_menu">
+        <div classNameName="sign_page">
+            {/* <div classNameName="sign_in_menu">
                 <label htmlFor="email">EMAIL</label>
                 <input type="text" id="email" value={email} onChange={handleEmailChange} />
 
@@ -47,7 +50,28 @@ export function SignPage(){
                 <input type="password" id="password" value={password} onChange={handlePasswordChange} />
 
                 <div onClick={handleLogin}>Submit</div>
-                {error && <div className="error">{error}</div>}
+                {error && <div classNameName="error">{error}</div>}
+            </div> */}
+
+            <div className="login-box">
+            <p>Login</p>
+            <form>
+                <div className="user-box">
+                <input required="" name="" type="email" value={email} onChange={handleEmailChange}/>
+                <label>Email</label>
+                </div>
+                <div className="user-box">
+                <input required="" name="" type="password" value={password} onChange={handlePasswordChange}/>
+                <label>Password</label>
+                </div>
+                <div className="b" onClick={handleLogin}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Submit
+                </div>
+            </form>
             </div>
         </div>
     )

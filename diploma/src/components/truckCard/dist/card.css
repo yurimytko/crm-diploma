@@ -173,7 +173,7 @@
   background: #fe3232;
 }
 .fav_truck_con:hover > .truck_fav_act {
-  opacity: 1;
+  opacity: 1 !important;
 }
 .truck_card:hover .fav_truck_con {
   transform: translateX(0px);
@@ -214,4 +214,7 @@
 }
 .tuck_status {
   color: #a28845;
+}
+.trucks_text {
+  color: #fff;
 }

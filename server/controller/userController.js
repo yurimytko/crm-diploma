@@ -17,16 +17,6 @@ class trucksController{
     
             const defaultStatus = status || "Доступний";
 
-            console.log("brand:", brand);
-            console.log("model:", model);
-            console.log("license:", license);
-            console.log("defaultStatus:", defaultStatus);
-            console.log("isFavoriteDefault:", isFavoriteDefault);
-            console.log("picture:", picture);
-            console.log("fuel_type:", fuel_type);
-            console.log("adminId:", adminId);
-            console.log("type of:", typeof(adminId));
-
             
     
             const newTruck = await db.query(
@@ -44,7 +34,7 @@ class trucksController{
         const { id } = req.params;
       
         try {
-          const truck = await db.query("SELECT * FROM trucks WHERE admin_id = $1", [id]);
+          const truck = await db.query("SELECT * FROM trucks WHERE id = $1", [id]);
       
           if (truck.rows.length === 0) {
             return res.status(404).json({ error: "Truck not found" });
@@ -135,7 +125,7 @@ class trucksController{
     
     async deleteTruck(req, res){
         try{
-            const id = req.params.id;
+            const {id} = req.params;
             // Спочатку видаляємо всі записи в таблиці "units", які мають зовнішній ключ, що посилається на вантажівку
             await db.query("DELETE FROM units WHERE truck_id = $1", [id]);
             
@@ -145,6 +135,18 @@ class trucksController{
             res.json(deletedTruck);
         } catch(e){
             res.status(500).json(e);
+        }
+    }
+
+    async getFavTruck(req,res){
+        try{
+            const {id} = req.params
+            const trucks = await db.query("SELECT * FROM trucks WHERE admin_id = $1 AND isfavorite = true", [id])
+            res.json(trucks.rows)
+
+        }catch{
+            res.status(500).json(e);
+
         }
     }
 }

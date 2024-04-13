@@ -4,7 +4,7 @@ import "./dist/preloader.css"
 export function Preloader() {
     return (
     <div className="preloader">
-        <div class="spinner"></div>
+        <div className="spinner"></div>
         <h1 className='loader_text'>LOADING...</h1>
     </div>)
 

@@ -40,6 +40,15 @@ const postTrucks = (
         });
     }
 
+    const getAlLTrucks = (id) => {
+        return axios.get(API_URl + `/getsall/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": JSON.parse(localStorage.getItem('token')).token
+            }
+        })
+    }
+
 const getTrucksById = (id) => {
     return axios.get(API_URl + "/get/" + id)
 }
@@ -84,13 +93,25 @@ const truckUp = ( id, brand, model, license, picture ,fuel_type ) => {
     })
 }
 
+
+const getFavTrucks = (id) => {
+    return axios.get(API_URl + `/favget/${id}`,{
+        headers:{
+            "Accept":"*/*",
+            "Authorization": JSON.parse(localStorage.getItem('token')).token
+        }
+    })
+}
+
 const truckServices ={
     getTrucks,
     getTrucksById,
     deleteTruck,
     postTrucks,
     favTruckUp,
-    truckUp
+    truckUp,
+    getAlLTrucks,
+    getFavTrucks
 }
 
 export default truckServices

@@ -1,7 +1,5 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -37,35 +35,26 @@ function () {
               }
 
               defaultStatus = status || "Доступний";
-              console.log("brand:", brand);
-              console.log("model:", model);
-              console.log("license:", license);
-              console.log("defaultStatus:", defaultStatus);
-              console.log("isFavoriteDefault:", isFavoriteDefault);
-              console.log("picture:", picture);
-              console.log("fuel_type:", fuel_type);
-              console.log("adminId:", adminId);
-              console.log("type of:", _typeof(adminId));
-              _context.next = 16;
+              _context.next = 7;
               return regeneratorRuntime.awrap(db.query("INSERT INTO trucks (brand, model, license, status, isfavorite, picture, fuel_type, admin_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [brand, model, license, defaultStatus, isFavoriteDefault, picture, fuel_type, adminId]));
 
-            case 16:
+            case 7:
               newTruck = _context.sent;
               res.json(newTruck.rows);
-              _context.next = 23;
+              _context.next = 14;
               break;
 
-            case 20:
-              _context.prev = 20;
+            case 11:
+              _context.prev = 11;
               _context.t0 = _context["catch"](0);
               res.status(500).json(_context.t0);
 
-            case 23:
+            case 14:
             case "end":
               return _context.stop();
           }
         }
-      }, null, null, [[0, 20]]);
+      }, null, null, [[0, 11]]);
     }
   }, {
     key: "getTruckById",
@@ -78,7 +67,7 @@ function () {
               id = req.params.id;
               _context2.prev = 1;
               _context2.next = 4;
-              return regeneratorRuntime.awrap(db.query("SELECT * FROM trucks WHERE admin_id = $1", [id]));
+              return regeneratorRuntime.awrap(db.query("SELECT * FROM trucks WHERE id = $1", [id]));
 
             case 4:
               truck = _context2.sent;
@@ -315,6 +304,37 @@ function () {
           }
         }
       }, null, null, [[0, 11]]);
+    }
+  }, {
+    key: "getFavTruck",
+    value: function getFavTruck(req, res) {
+      var id, trucks;
+      return regeneratorRuntime.async(function getFavTruck$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              _context8.prev = 0;
+              id = req.params.id;
+              _context8.next = 4;
+              return regeneratorRuntime.awrap(db.query("SELECT * FROM trucks WHERE admin_id = $1 AND isfavorite = true", [id]));
+
+            case 4:
+              trucks = _context8.sent;
+              res.json(trucks.rows);
+              _context8.next = 11;
+              break;
+
+            case 8:
+              _context8.prev = 8;
+              _context8.t0 = _context8["catch"](0);
+              res.status(500).json(e);
+
+            case 11:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, null, null, [[0, 8]]);
     }
   }]);
 

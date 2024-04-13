@@ -1,0 +1,21 @@
+.worker_add_menu {
+  position: relative;
+  transition: 0.5s;
+  transform: scale(0.9);
+  border-radius: 1vh;
+  width: 25vw;
+  height: 80vh;
+  background: #171c23;
+  filter: drop-shadow(0 1.5vh 1vh rgba(0,0,0,0.502));
+  overflow: hidden;
+}
+.l_inputs {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 3vh;
+}
+.btn_group_w {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5vh;
+}

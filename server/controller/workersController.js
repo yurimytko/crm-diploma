@@ -19,13 +19,11 @@ class workersController{
     
             const defaultStatus = status || "Працює";
     
-            // Check if the email already exists in the database
             const existingEmail = await db.query("SELECT * FROM workers WHERE email = $1", [email]);
             if (existingEmail.rows.length > 0) {
                 return res.status(400).json({ message: 'Email is already registered' });
             }
     
-            // Check if the phone number already exists in the database
             const existingPhone = await db.query("SELECT * FROM workers WHERE phone = $1", [phone]);
             if (existingPhone.rows.length > 0) {
                 return res.status(400).json({ message: 'Phone number is already registered' });
@@ -57,7 +55,7 @@ class workersController{
             const workers = await db.query("SELECT * FROM workers WHERE admin_id = $1", [id]);
     
             if (workers.rows.length === 0) {
-                return res.status(404).json({ error: "Workers not found" });
+                return res.status(404).json({ error: "Worker not found" });
             }
     
             res.json(workers.rows);
@@ -129,6 +127,16 @@ class workersController{
         }catch(e){
             res.status(500).json(e);
 
+        }
+    }
+
+    async getFavWorkers(req,res){
+        try{
+            const{id} = req.params
+            const workers = await db.query("SELECT * FROM workers WHERE admin_id = $1 AND isfavorite = true", [id])
+            res.json(workers.rows)
+        }catch(e){
+            res.status(500).json(e)
         }
     }
 

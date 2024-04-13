@@ -37,6 +37,15 @@ var getTrucks = function getTrucks(id, page) {
   });
 };
 
+var getAlLTrucks = function getAlLTrucks(id) {
+  return _axios["default"].get(API_URl + "/getsall/".concat(id), {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": JSON.parse(localStorage.getItem('token')).token
+    }
+  });
+};
+
 var getTrucksById = function getTrucksById(id) {
   return _axios["default"].get(API_URl + "/get/" + id);
 };
@@ -75,13 +84,24 @@ var truckUp = function truckUp(id, brand, model, license, picture, fuel_type) {
   });
 };
 
+var getFavTrucks = function getFavTrucks(id) {
+  return _axios["default"].get(API_URl + "/favget/".concat(id), {
+    headers: {
+      "Accept": "*/*",
+      "Authorization": JSON.parse(localStorage.getItem('token')).token
+    }
+  });
+};
+
 var truckServices = {
   getTrucks: getTrucks,
   getTrucksById: getTrucksById,
   deleteTruck: deleteTruck,
   postTrucks: postTrucks,
   favTruckUp: favTruckUp,
-  truckUp: truckUp
+  truckUp: truckUp,
+  getAlLTrucks: getAlLTrucks,
+  getFavTrucks: getFavTrucks
 };
 var _default = truckServices;
 exports["default"] = _default;

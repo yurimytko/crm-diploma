@@ -7,7 +7,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import truckServices from "../../service/truckService";
 import "./dist/card.css"
 
-export function TruckCard({data, fetchData}){
+export function TruckCard({data, fetchAllData, openUpMenu}){
 
     const trucks = data
 
@@ -32,22 +32,26 @@ export function TruckCard({data, fetchData}){
             if(trucks.status === 'Не доступний'){
                 status.current.style.color = '#FE3232'
             }
-            if(trucks.isfavorite === true){
-                favorite.current.style.opacity = '1'
-            }
-            else{
-                favorite.current.style.opacity = '0'
-            }
+
         }
     }, [trucks]);
+
+    useEffect(()=> {
+        if(fav === true){
+            favorite.current.style.opacity = '1'
+        }
+        else{
+            favorite.current.style.opacity = '0'
+        }
+    })
     
 
       const favUp = async () => {
         try {
           const updatedFav = !fav;
-          
           setFav(updatedFav);
-      
+          console.log(fav)
+          
           const response = await truckServices.favTruckUp(
             trucks.id,
             updatedFav
@@ -57,11 +61,24 @@ export function TruckCard({data, fetchData}){
         } catch (error) {
           console.error('Error updating favorite status:', error);
         }
-
-        await fetchData()
+        fetchAllData()
       };
 
 
+
+    const openMenu= () => {
+        openUpMenu(trucks.id)
+        const trucksAddElement = document.getElementById('trucks_up');
+
+        trucksAddElement.style.display = 'flex';
+          
+        setTimeout(() => {
+          trucksAddElement.style.opacity = '1';
+          document.getElementById('truck_up_menu').style.transform = "scale(1)"
+
+            
+        }, 100);
+      };
 
 
     return(
@@ -77,8 +94,8 @@ export function TruckCard({data, fetchData}){
                 <div className="add_setings">
                     <img className="dots" src="./img/add_setings.svg" alt="" /> 
                     <div className="add_setings_btns">
-                    <div className="add_set_btn up">Редагувати</div>
-                        <div className="add_set_btn del" onClick={deleteTruck}>Видалити</div>
+                    <div className="add_set_btn up" onClick={openMenu}>Редагувати</div>
+                    <div className="add_set_btn del" onClick={deleteTruck}>Видалити</div>
                     </div>
                 </div>
             </div>
@@ -89,12 +106,12 @@ export function TruckCard({data, fetchData}){
                 <div className="truck_info">
                     <p className="truck_info_punkt">Модель</p>
                     <div className="truck_line"></div>
-                    <p>{trucks.model}</p>
+                    <p className="trucks_text">{trucks.model}</p>
                 </div>
                 <div className="truck_info">
                     <p className="truck_info_punkt">Номера</p>
                     <div className="truck_line"></div>
-                    <p>{trucks.license}</p>
+                    <p className="trucks_text">{trucks.license}</p>
                 </div>
                 <div className="truck_info">
                     <p className="truck_info_punkt">Статус</p>
@@ -104,7 +121,7 @@ export function TruckCard({data, fetchData}){
                 <div className="truck_info">
                     <p className="truck_info_punkt">Пальне</p>
                     <div className="truck_line"></div>
-                    <p>{trucks.fuel_type}</p>
+                    <p className="trucks_text">{trucks.fuel_type}</p>
                 </div>
             </div>
         </div>
