@@ -42,3 +42,22 @@ create TABLE units(
     FOREIGN KEY (worker_id) REFERENCES workers(id)
 
 );
+
+
+
+CREATE TABLE transfers (
+    id INT PRIMARY KEY,
+    client_name VARCHAR(255),
+    client_company VARCHAR(255),
+    client_phone VARCHAR(255),
+    client_email VARCHAR(255),
+    cargo VARCHAR(255),
+    cargo_weight VARCHAR(255),
+    from_address VARCHAR(255),
+    to_address VARCHAR(255),
+    dispatch_time TIMESTAMP,
+    truck_id INT,
+    worker_id INT,
+    FOREIGN KEY (truck_id) REFERENCES trucks(id),
+    FOREIGN KEY (worker_id) REFERENCES workers(id)
+);
