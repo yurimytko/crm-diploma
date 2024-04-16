@@ -58,6 +58,9 @@ CREATE TABLE transfers (
     dispatch_time TIMESTAMP,
     truck_id INT,
     worker_id INT,
+    admin_id INT,
     FOREIGN KEY (truck_id) REFERENCES trucks(id),
-    FOREIGN KEY (worker_id) REFERENCES workers(id)
+    FOREIGN KEY (worker_id) REFERENCES workers(id),
+    FOREIGN KEY (admin_id) REFERENCES admins(id)
+
 );

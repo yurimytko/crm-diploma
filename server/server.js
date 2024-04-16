@@ -6,6 +6,7 @@ const loginRouter = require('./router/loginRouter')
 const adminRouter = require('./router/adminRout')
 const refRouter = require('./router/refreshRouter')
 const fileUpload = require('express-fileupload');
+const transferRouter = require('./router/transfersRout')
 const cors = require('cors');
 
 
@@ -23,6 +24,8 @@ app.use('/api/ref', refRouter)
 
 app.use('/api/unit', unitRouter);
 app.use('/api/auth', loginRouter);
+
+app.use('/api/trnsf', transferRouter)
 
 
 

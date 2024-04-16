@@ -16,6 +16,8 @@ var refRouter = require('./router/refreshRouter');
 
 var fileUpload = require('express-fileupload');
 
+var transferRouter = require('./router/transfersRout');
+
 var cors = require('cors');
 
 var PORT = process.env.PORT || 8000;
@@ -30,6 +32,7 @@ app.use('/api/admin', adminRouter);
 app.use('/api/ref', refRouter);
 app.use('/api/unit', unitRouter);
 app.use('/api/auth', loginRouter);
+app.use('/api/trnsf', transferRouter);
 app.listen(PORT, function () {
   return console.log('listening on port ' + PORT);
 });
