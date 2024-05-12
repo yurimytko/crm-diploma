@@ -4,20 +4,18 @@ async function sendEmail(toEmail, subject, text) {
     let transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: 'uri200306@gmail.com', // Замените на вашу почту
-            pass: 'pnuq dygx jteg ynom' // Замените на ваш пароль
+            user: 'uri200306@gmail.com', 
+            pass: 'pnuq dygx jteg ynom'
         }
     });
 
-    // Настройте письмо
     let mailOptions = {
-        from: 'uri200306@gmail.com', // Замените на вашу почту
+        from: 'uri200306@gmail.com',
         to: toEmail,
         subject: subject,
         text: text
     };
 
-    // Отправьте письмо
     await transporter.sendMail(mailOptions);
 }
 

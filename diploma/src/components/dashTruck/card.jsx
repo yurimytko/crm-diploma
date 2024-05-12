@@ -19,7 +19,7 @@ export function TruckDashCard({truck}){
                     src={`http://localhost:8000//${truck.picture}`}
                     alt=""
                     className="truck_img_d"
-                    effect="blur"  // Эффект размытия при загрузке (опционально)
+                    effect="blur" 
                     />
                 )}
             </div>

@@ -50,11 +50,9 @@ function () {
                   });
                 }
 
-                console.log(decoded); // Вывод содержимого декодированного токена в консоль
-
+                console.log(decoded);
                 var id = decoded.id;
-                var worker_id = decoded.worker_id; // Включаем все данные из старого токена в новый
-
+                var worker_id = decoded.worker_id;
                 var newToken = generateToken(_objectSpread({}, decoded, {
                   id: id,
                   worker_id: worker_id

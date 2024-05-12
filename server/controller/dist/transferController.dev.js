@@ -120,6 +120,48 @@ function () {
         }
       }, null, null, [[0, 12]]);
     }
+  }, {
+    key: "deleteTransfer",
+    value: function deleteTransfer(req, res) {
+      var id, truckIdQuery, truckId, updateStatusQuery, deletedTransfer;
+      return regeneratorRuntime.async(function deleteTransfer$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.prev = 0;
+              id = req.params.id;
+              _context3.next = 4;
+              return regeneratorRuntime.awrap(db.query("SELECT truck_id FROM transfers WHERE id = $1", [id]));
+
+            case 4:
+              truckIdQuery = _context3.sent;
+              truckId = truckIdQuery.rows[0].truck_id;
+              updateStatusQuery = "UPDATE trucks SET status = 'Доступний' WHERE id = $1";
+              _context3.next = 9;
+              return regeneratorRuntime.awrap(db.query(updateStatusQuery, [truckId]));
+
+            case 9:
+              _context3.next = 11;
+              return regeneratorRuntime.awrap(db.query("DELETE FROM transfers WHERE id = $1", [id]));
+
+            case 11:
+              deletedTransfer = _context3.sent;
+              res.json(deletedTransfer.rows);
+              _context3.next = 18;
+              break;
+
+            case 15:
+              _context3.prev = 15;
+              _context3.t0 = _context3["catch"](0);
+              res.status(500).json(_context3.t0);
+
+            case 18:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, null, null, [[0, 15]]);
+    }
   }]);
 
   return transferController;

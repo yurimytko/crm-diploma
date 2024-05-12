@@ -5,21 +5,18 @@ class untitController{
         try {
             const { truck_id, worker_id } = req.body;
     
-            // Перевірка, чи вантажівка вже призначена іншому unit
             const existingTruckUnit = await db.query("SELECT * FROM units WHERE truck_id = $1", [truck_id]);
     
             if (existingTruckUnit.rows.length > 0) {
                 return res.status(400).json({ error: "Вантажівка вже призначена іншому unit." });
             }
     
-            // Перевірка, чи робітник вже призначений іншому unit
             const existingWorkerUnit = await db.query("SELECT * FROM units WHERE worker_id = $1", [worker_id]);
     
             if (existingWorkerUnit.rows.length > 0) {
                 return res.status(400).json({ error: "Робітник вже призначений іншому unit." });
             }
     
-            // Вставка нового запису, якщо вантажівка та робітник не призначені іншим unit
             const newUnit = await db.query("INSERT INTO units (truck_id, worker_id) VALUES ($1, $2) RETURNING *", [truck_id, worker_id]);
     
             res.json(newUnit.rows);

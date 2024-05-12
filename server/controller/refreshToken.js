@@ -15,12 +15,11 @@ class refreshToken {
                 return res.status(401).json({ message: 'Invalid token' });
             }
 
-            console.log(decoded); // Вывод содержимого декодированного токена в консоль
+            console.log(decoded);
 
             const id = decoded.id;
             const worker_id = decoded.worker_id;
             
-            // Включаем все данные из старого токена в новый
             const newToken = generateToken({
                 ...decoded,
                 id: id,

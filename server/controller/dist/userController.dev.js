@@ -144,11 +144,9 @@ function () {
           switch (_context4.prev = _context4.next) {
             case 0:
               id = req.params.id;
-              _req$query = req.query, _req$query$page = _req$query.page, page = _req$query$page === void 0 ? 1 : _req$query$page, _req$query$limit = _req$query.limit, limit = _req$query$limit === void 0 ? 8 : _req$query$limit; // Зчитування параметрів сторінки та ліміту
-
+              _req$query = req.query, _req$query$page = _req$query.page, page = _req$query$page === void 0 ? 1 : _req$query$page, _req$query$limit = _req$query.limit, limit = _req$query$limit === void 0 ? 8 : _req$query$limit;
               _context4.prev = 2;
-              offset = (page - 1) * limit; // Вирахування зміщення для запиту
-
+              offset = (page - 1) * limit;
               _context4.next = 6;
               return regeneratorRuntime.awrap(db.query("SELECT * FROM trucks WHERE admin_id = $1 ORDER BY id LIMIT $2 OFFSET $3", [id, limit, offset]));
 
@@ -170,9 +168,7 @@ function () {
 
             case 11:
               totalCount = _context4.sent;
-              // Запит для підрахунку загальної кількості записів
-              totalPages = Math.ceil(totalCount.rows[0].count / limit); // Обчислення загальної кількості сторінок
-
+              totalPages = Math.ceil(totalCount.rows[0].count / limit);
               res.json({
                 data: truck.rows,
                 page: parseInt(page),
@@ -277,8 +273,7 @@ function () {
           switch (_context7.prev = _context7.next) {
             case 0:
               _context7.prev = 0;
-              id = req.params.id; // Спочатку видаляємо всі записи в таблиці "units", які мають зовнішній ключ, що посилається на вантажівку
-
+              id = req.params.id;
               _context7.next = 4;
               return regeneratorRuntime.awrap(db.query("DELETE FROM units WHERE truck_id = $1", [id]));
 

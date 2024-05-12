@@ -29,14 +29,13 @@ function () {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              _req$body = req.body, email = _req$body.email, password = _req$body.password; // Перевірка користувача в таблиці "workers"
-
+              _req$body = req.body, email = _req$body.email, password = _req$body.password;
               _context.next = 4;
               return regeneratorRuntime.awrap(db.query("SELECT * FROM workers WHERE email = $1", [email]));
 
             case 4:
               queryResult = _context.sent;
-              user = queryResult.rows[0]; // Якщо користувач не знайдений в таблиці "workers", перевіряємо таблицю "admins"
+              user = queryResult.rows[0];
 
               if (user) {
                 _context.next = 11;
@@ -73,7 +72,6 @@ function () {
               return _context.abrupt("return", res.status(400).send('Invalid password'));
 
             case 18:
-              // Генерація токена доступу
               token = generateToken(user);
               res.status(200).json({
                 token: token

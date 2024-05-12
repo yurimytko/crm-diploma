@@ -81,7 +81,7 @@ export function TrucksAdd({decode, fetchData}){
 
 
     const addTruck = async () => {
-        setLoading(true); // Установить состояние загрузки данных в true
+        setLoading(true);
         try {
             const response = await truckServices.postTrucks(brand, model, license, file, fuel, user.admin_id);
             console.log(response.data);

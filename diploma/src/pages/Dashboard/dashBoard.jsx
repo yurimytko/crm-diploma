@@ -50,7 +50,7 @@ export function DashBoard({ decode }) {
           <div className="graph"></div>
           <div className="sub_menu">
             <div className="truck_menu">
-              {trucks && trucks.length > 0 ? ( // Проверка наличия и длины массива
+              {trucks && trucks.length > 0 ? (
                 trucks.map((truck) => (
                   <TruckDashCard key={truck.id} truck={truck} />
                 ))

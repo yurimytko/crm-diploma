@@ -83,9 +83,8 @@ class workersController{
       async deleteWorker(req, res){
         try {
             const id = req.params.id;
-            // Спочатку видаляємо всі записи з таблиці "units", які мають посилання на робітника з ідентифікатором id
             await db.query("DELETE FROM units WHERE worker_id = $1", [id]);
-            // Після цього можна видалити робітника з таблиці "workers"
+
             const delete_worker_query = await db.query("DELETE FROM workers WHERE id = $1 RETURNING *", [id]);
             const deletedWorker = delete_worker_query.rows[0];
             res.json(deletedWorker);

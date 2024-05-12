@@ -61,18 +61,18 @@ class trucksController{
 
       async getTruck(req, res) {
         const { id } = req.params;
-        const { page = 1, limit = 8 } = req.query; // Зчитування параметрів сторінки та ліміту
+        const { page = 1, limit = 8 } = req.query;
     
         try {
-            const offset = (page - 1) * limit; // Вирахування зміщення для запиту
-            const truck = await db.query("SELECT * FROM trucks WHERE admin_id = $1 ORDER BY id LIMIT $2 OFFSET $3", [id, limit, offset]); // Змінений SQL-запит з використанням LIMIT та OFFSET
+            const offset = (page - 1) * limit;
+            const truck = await db.query("SELECT * FROM trucks WHERE admin_id = $1 ORDER BY id LIMIT $2 OFFSET $3", [id, limit, offset]);
     
             if (truck.rows.length === 0) {
                 return res.status(404).json({ error: "Truck not found" });
             }
     
-            const totalCount = await db.query("SELECT COUNT(*) FROM trucks WHERE admin_id = $1", [id]); // Запит для підрахунку загальної кількості записів
-            const totalPages = Math.ceil(totalCount.rows[0].count / limit); // Обчислення загальної кількості сторінок
+            const totalCount = await db.query("SELECT COUNT(*) FROM trucks WHERE admin_id = $1", [id]); 
+            const totalPages = Math.ceil(totalCount.rows[0].count / limit); 
     
     
             res.json({
@@ -126,10 +126,9 @@ class trucksController{
     async deleteTruck(req, res){
         try{
             const {id} = req.params;
-            // Спочатку видаляємо всі записи в таблиці "units", які мають зовнішній ключ, що посилається на вантажівку
+            
             await db.query("DELETE FROM units WHERE truck_id = $1", [id]);
             
-            // Потім можна видалити саму вантажівку
             const delete_truck_query = await db.query("DELETE FROM trucks WHERE id = $1 RETURNING *", [id]);
             const deletedTruck = delete_truck_query.rows[0];
             res.json(deletedTruck);

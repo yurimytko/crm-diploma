@@ -25,8 +25,7 @@ function () {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              _req$body = req.body, truck_id = _req$body.truck_id, worker_id = _req$body.worker_id; // Перевірка, чи вантажівка вже призначена іншому unit
-
+              _req$body = req.body, truck_id = _req$body.truck_id, worker_id = _req$body.worker_id;
               _context.next = 4;
               return regeneratorRuntime.awrap(db.query("SELECT * FROM units WHERE truck_id = $1", [truck_id]));
 

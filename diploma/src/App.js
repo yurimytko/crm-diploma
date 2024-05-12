@@ -13,20 +13,41 @@ function App() {
   const [token, setToken] = useState();
   const [decodedToken, setDecodedToken] = useState(null);
 
-  useEffect(() => {
-    if(localStorage.getItem("token")){
-      setToken(JSON.parse(localStorage.getItem('token')).token)
-    }
 
+
+
+  const refreshTokenf = async () => {
+    if (token) {
+      await refreshToken.refresh(token);
+      console.log(token);
+    } else {
+      console.log('Token not found');
+    }
+  };
+
+  
+
+  useEffect(() => {
+    let intervalId;
+  
+    if(localStorage.getItem("token")) {
+      setToken(JSON.parse(localStorage.getItem('token')).token);
+    }
+  
     if (token) {
       const decoded = jwtDecode(token);
       setDecodedToken(decoded);
-      console.log(decoded);
-      console.log(token)
-    }
-    else{
+    } else {
       console.log('Token not found in localStorage');
     }
+  
+    if (intervalId) {
+      clearInterval(intervalId);
+    }
+  
+    intervalId = setInterval(refreshTokenf, 9 * 60 * 1000);
+  
+    return () => clearInterval(intervalId);
   }, [token]);
 
 

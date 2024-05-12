@@ -12,20 +12,15 @@ function sendEmail(toEmail, subject, text) {
             service: 'Gmail',
             auth: {
               user: 'uri200306@gmail.com',
-              // Замените на вашу почту
-              pass: 'pnuq dygx jteg ynom' // Замените на ваш пароль
-
+              pass: 'pnuq dygx jteg ynom'
             }
-          }); // Настройте письмо
-
+          });
           mailOptions = {
             from: 'uri200306@gmail.com',
-            // Замените на вашу почту
             to: toEmail,
             subject: subject,
             text: text
-          }; // Отправьте письмо
-
+          };
           _context.next = 4;
           return regeneratorRuntime.awrap(transporter.sendMail(mailOptions));
 

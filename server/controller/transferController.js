@@ -53,6 +53,24 @@ class transferController{
             res.status(500).json(e);
         }
     }
+
+    async deleteTransfer(req, res) {
+        try {
+            const { id } = req.params;
+    
+            const truckIdQuery = await db.query("SELECT truck_id FROM transfers WHERE id = $1", [id]);
+            const truckId = truckIdQuery.rows[0].truck_id;
+    
+            const updateStatusQuery = "UPDATE trucks SET status = 'Доступний' WHERE id = $1";
+            await db.query(updateStatusQuery, [truckId]);
+    
+            const deletedTransfer = await db.query("DELETE FROM transfers WHERE id = $1", [id]);
+    
+            res.json(deletedTransfer.rows);
+        } catch (e) {
+            res.status(500).json(e);
+        }
+    }
     
 }
 

@@ -206,8 +206,7 @@ function () {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.prev = 0;
-              id = req.params.id; // Спочатку видаляємо всі записи з таблиці "units", які мають посилання на робітника з ідентифікатором id
-
+              id = req.params.id;
               _context4.next = 4;
               return regeneratorRuntime.awrap(db.query("DELETE FROM units WHERE worker_id = $1", [id]));
 

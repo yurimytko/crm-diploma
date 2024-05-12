@@ -16,15 +16,13 @@ class OwnerController {
             }
     
             const defaultStatus = status || "Працює";
-            const defaultRole = role || "Власник"; // Додано умову для встановлення ролі за замовчуванням
+            const defaultRole = role || "Власник"; 
     
-            // Check if the email already exists in the database
             const existingEmail = await db.query("SELECT * FROM admins WHERE email = $1", [email]);
             if (existingEmail.rows.length > 0) {
                 return res.status(400).json({ message: 'Email is already registered' });
             }
     
-            // Check if the phone number already exists in the database
             const existingPhone = await db.query("SELECT * FROM admins WHERE phone = $1", [phone]);
             if (existingPhone.rows.length > 0) {
                 return res.status(400).json({ message: 'Phone number is already registered' });

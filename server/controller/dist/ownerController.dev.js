@@ -39,9 +39,7 @@ function () {
               }
 
               defaultStatus = status || "Працює";
-              defaultRole = role || "Власник"; // Додано умову для встановлення ролі за замовчуванням
-              // Check if the email already exists in the database
-
+              defaultRole = role || "Власник";
               _context.next = 8;
               return regeneratorRuntime.awrap(db.query("SELECT * FROM admins WHERE email = $1", [email]));
 
