@@ -22,17 +22,18 @@ class transferController{
         try {
             const { id } = req.params;
             const transfers = await db.query(
-                "SELECT transfers.*, workers.id AS worker_id, workers.name AS worker_name, workers.phone AS worker_phone, workers.picture AS worker_picture, trucks.id AS truck_id,trucks.brand AS truck_brand, trucks.model AS truck_model, trucks.license AS truck_license FROM transfers JOIN workers ON transfers.worker_id = workers.id JOIN trucks ON transfers.truck_id = trucks.id WHERE transfers.admin_id = $1",
+                "SELECT transfers.*, workers.id AS worker_id, workers.name AS worker_name,workers.surname AS worker_surname,workers.phone AS worker_phone, workers.picture AS worker_picture, trucks.id AS truck_id,trucks.brand AS truck_brand, trucks.model AS truck_model, trucks.license AS truck_license FROM transfers JOIN workers ON transfers.worker_id = workers.id JOIN trucks ON transfers.truck_id = trucks.id WHERE transfers.admin_id = $1",
                 [id]
             );
     
             const formattedTransfers = transfers.rows.map(transfer => {
-                const { worker_id, worker_name, worker_phone, worker_picture,truck_id, truck_brand, truck_model, truck_license, ...rest } = transfer;
+                const { worker_id, worker_name, worker_surname,worker_phone, worker_picture,truck_id, truck_brand, truck_model, truck_license, ...rest } = transfer;
                 return {
                     ...rest,
                     driver: {
                         id: worker_id,
                         name: worker_name,
+                        surname: worker_surname,
                         phone: worker_phone,
                         picture: worker_picture
                     },

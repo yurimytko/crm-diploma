@@ -4,7 +4,7 @@ const router = new Router()
 
 const jwt = require('../midleware/verifyToken')
 
-const trucksController = require("../controller/userController")
+const trucksController = require("../controller/trucksController")
 
 router.post("/post", jwt, trucksController.create)
 router.get("/gets/:id", jwt,  trucksController.getTruck)

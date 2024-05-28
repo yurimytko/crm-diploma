@@ -23,11 +23,11 @@ export function NavBar(){
                 <img className="def_img" src="./img/driver.svg" alt="" />
                 <img className="act_img" src="./img/driver_active.svg" alt="" />
             </NavLink>
-            <div className="link_con">
+            <NavLink to = '/transfers' className="link_con">
                 <div className="left_border"></div>
                 <img className="def_img contract" src="./img/contract.svg" alt="" />
                 <img className="act_img contract_act" src="./img/contract_active.svg" alt="" />
-            </div>
+            </NavLink>
         </div>
     )
 }

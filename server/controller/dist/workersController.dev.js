@@ -26,7 +26,7 @@ function () {
   _createClass(workersController, [{
     key: "create",
     value: function create(req, res) {
-      var _req$body, name, surname, phone, email, role, status, isfavorite, adminId, isFavoriteDefault, picture, defaultStatus, existingEmail, existingPhone, password, hashedPassword, newWorker, emailSubject, emailText;
+      var _req$body, name, surname, phone, email, role, status, isfavorite, adminId, isFavoriteDefault, defaultStatus, picture, existingEmail, existingPhone, password, hashedPassword, newWorker, emailSubject, emailText;
 
       return regeneratorRuntime.async(function create$(_context) {
         while (1) {
@@ -35,12 +35,12 @@ function () {
               _context.prev = 0;
               _req$body = req.body, name = _req$body.name, surname = _req$body.surname, phone = _req$body.phone, email = _req$body.email, role = _req$body.role, status = _req$body.status, isfavorite = _req$body.isfavorite, adminId = _req$body.adminId;
               isFavoriteDefault = isfavorite !== undefined ? isfavorite : false;
+              defaultStatus = status || "Працює";
 
               if (req.files && req.files.picture) {
                 picture = file.SaveFile(req.files.picture);
               }
 
-              defaultStatus = status || "Працює";
               _context.next = 7;
               return regeneratorRuntime.awrap(db.query("SELECT * FROM workers WHERE email = $1", [email]));
 

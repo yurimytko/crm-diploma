@@ -22,7 +22,7 @@ class LoginController{
                 return res.status(400).send('Email or password is wrong');
             }
     
-            const validPass = await bcrypt.compare(password, user.password);
+                const validPass = await bcrypt.compare(password, user.password);
             if (!validPass) {
                 return res.status(400).send('Invalid password');
             }

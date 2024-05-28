@@ -7,6 +7,7 @@ import { DashBoard } from './pages/Dashboard/dashBoard';
 import refreshToken from './service/refresh.service';
 import { TrucksPage } from './pages/trucks/trucks';
 import { Workers } from './pages/Workers/workers';
+import { Transfer } from './pages/Transfer/transfer';
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
             <Route path="/sign-in" element={<SignPage />} />
             <Route path="/trucks" element={<TrucksPage decode={decodedToken}/>}/>
             <Route path='/workers' element = {<Workers decode = {decodedToken}/>}/>
+            <Route path = '/transfers' element = {<Transfer decode = {decodedToken}/>}/>
           </Routes>
         </Router>
       </div>

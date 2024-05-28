@@ -11,13 +11,14 @@ class workersController{
         try {
             const { name, surname, phone, email, role, status, isfavorite, adminId} = req.body;
             const isFavoriteDefault = isfavorite !== undefined ? isfavorite : false;
+            const defaultStatus = status || "Працює";
+
             let picture;
     
             if (req.files && req.files.picture) {
                 picture = file.SaveFile(req.files.picture);
             }
     
-            const defaultStatus = status || "Працює";
     
             const existingEmail = await db.query("SELECT * FROM workers WHERE email = $1", [email]);
             if (existingEmail.rows.length > 0) {

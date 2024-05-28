@@ -6,7 +6,7 @@ var router = new Router();
 
 var jwt = require('../midleware/verifyToken');
 
-var trucksController = require("../controller/userController");
+var trucksController = require("../controller/trucksController");
 
 router.post("/post", jwt, trucksController.create);
 router.get("/gets/:id", jwt, trucksController.getTruck);
