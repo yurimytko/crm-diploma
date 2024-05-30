@@ -28,16 +28,16 @@ function () {
   _createClass(transferController, [{
     key: "create",
     value: function create(req, res) {
-      var _req$body, truck_id, worker_id, admin_id, client_name, client_company, client_phone, client_email, cargo, cargo_weight, from_address, to_address, dispatch_time, transfer;
+      var _req$body, truck_id, worker_id, admin_id, client_name, client_company, client_phone, client_email, cargo, cargo_weight, from_address, to_address, dispatch_time, income, costs, transfer;
 
       return regeneratorRuntime.async(function create$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.prev = 0;
-              _req$body = req.body, truck_id = _req$body.truck_id, worker_id = _req$body.worker_id, admin_id = _req$body.admin_id, client_name = _req$body.client_name, client_company = _req$body.client_company, client_phone = _req$body.client_phone, client_email = _req$body.client_email, cargo = _req$body.cargo, cargo_weight = _req$body.cargo_weight, from_address = _req$body.from_address, to_address = _req$body.to_address, dispatch_time = _req$body.dispatch_time;
+              _req$body = req.body, truck_id = _req$body.truck_id, worker_id = _req$body.worker_id, admin_id = _req$body.admin_id, client_name = _req$body.client_name, client_company = _req$body.client_company, client_phone = _req$body.client_phone, client_email = _req$body.client_email, cargo = _req$body.cargo, cargo_weight = _req$body.cargo_weight, from_address = _req$body.from_address, to_address = _req$body.to_address, dispatch_time = _req$body.dispatch_time, income = _req$body.income, costs = _req$body.costs;
               _context.next = 4;
-              return regeneratorRuntime.awrap(db.query("INSERT INTO transfers (truck_id, worker_id, admin_id, client_name,client_company, client_phone, client_email, cargo, cargo_weight, from_address, to_address, dispatch_time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)  RETURNING *", [truck_id, worker_id, admin_id, client_name, client_company, client_phone, client_email, cargo, cargo_weight, from_address, to_address, dispatch_time]));
+              return regeneratorRuntime.awrap(db.query("INSERT INTO transfers (truck_id, worker_id, admin_id, client_name, client_company, client_phone, client_email, cargo, cargo_weight, from_address, to_address, dispatch_time, income, costs) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *", [truck_id, worker_id, admin_id, client_name, client_company, client_phone, client_email, cargo, cargo_weight, from_address, to_address, dispatch_time, income, costs]));
 
             case 4:
               transfer = _context.sent;
@@ -125,7 +125,7 @@ function () {
   }, {
     key: "deleteTransfer",
     value: function deleteTransfer(req, res) {
-      var id, truckIdQuery, truckId, updateStatusQuery, deletedTransfer;
+      var id, truckIdQuery, truckId, updateStatusQuery, incomeResult, income, costsResult, costs, data, currentDate, tableData, existingIncome, updatedIncome, updatedRow, updatedData, formattedDate, incomer, insertedData, deletedTransfer;
       return regeneratorRuntime.async(function deleteTransfer$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -144,25 +144,85 @@ function () {
 
             case 9:
               _context3.next = 11;
-              return regeneratorRuntime.awrap(db.query("DELETE FROM transfers WHERE id = $1", [id]));
+              return regeneratorRuntime.awrap(db.query("SELECT income FROM transfers WHERE id = $1", [id]));
 
             case 11:
-              deletedTransfer = _context3.sent;
-              res.json(deletedTransfer.rows);
-              _context3.next = 18;
-              break;
+              incomeResult = _context3.sent;
+              income = incomeResult.rows[0].income;
+              _context3.next = 15;
+              return regeneratorRuntime.awrap(db.query("SELECT costs FROM transfers WHERE id = $1", [id]));
 
             case 15:
-              _context3.prev = 15;
+              costsResult = _context3.sent;
+              costs = costsResult.rows[0].costs;
+              data = income - costs; // Отримання поточної дати
+
+              currentDate = new Date().toISOString().split('T')[0]; // Перевірка, чи є сьогоднішня дата в таблиці current_year
+
+              _context3.next = 21;
+              return regeneratorRuntime.awrap(db.query("SELECT * FROM current_year WHERE date = $1", [currentDate]));
+
+            case 21:
+              tableData = _context3.sent;
+
+              if (!(tableData.rows.length > 0)) {
+                _context3.next = 32;
+                break;
+              }
+
+              // Якщо сьогоднішня дата вже існує в таблиці, оновити рядок з цією датою
+              existingIncome = tableData.rows[0].income;
+              updatedIncome = existingIncome + data;
+              _context3.next = 27;
+              return regeneratorRuntime.awrap(db.query("UPDATE current_year SET income = $1 WHERE date = $2 RETURNING *", [updatedIncome, currentDate]));
+
+            case 27:
+              updatedRow = _context3.sent;
+              // Отримати оновлені дані, якщо потрібно
+              updatedData = updatedRow.rows[0]; // Опрацьовувати отримані дані
+              // наприклад, повідомлення про успішне оновлення
+
+              console.log('Рядок оновлено:', updatedData);
+              _context3.next = 38;
+              break;
+
+            case 32:
+              // Якщо сьогоднішня дата відсутня в таблиці, вставити новий рядок з сьогоднішньою датою та значенням доходу
+              formattedDate = currentDate;
+              _context3.next = 35;
+              return regeneratorRuntime.awrap(db.query("INSERT INTO current_year(date, income) VALUES($1, $2) RETURNING *", [formattedDate, data]));
+
+            case 35:
+              incomer = _context3.sent;
+              // Отримати дані про новий рядок, якщо потрібно
+              insertedData = incomer.rows[0]; // Опрацьовувати отримані дані
+              // наприклад, повідомлення про успішне вставлення нового рядка
+
+              console.log('Новий рядок вставлено:', insertedData);
+
+            case 38:
+              _context3.next = 40;
+              return regeneratorRuntime.awrap(db.query("DELETE FROM transfers WHERE id = $1", [id]));
+
+            case 40:
+              deletedTransfer = _context3.sent;
+              res.json({
+                message: "Успішно видалено перенесення"
+              });
+              _context3.next = 47;
+              break;
+
+            case 44:
+              _context3.prev = 44;
               _context3.t0 = _context3["catch"](0);
               res.status(500).json(_context3.t0);
 
-            case 18:
+            case 47:
             case "end":
               return _context3.stop();
           }
         }
-      }, null, null, [[0, 15]]);
+      }, null, null, [[0, 44]]);
     }
   }]);
 

@@ -4,6 +4,7 @@ import { NavBar } from "../../components/NavBar/navBar";
 import truckServices from "../../service/truckService";
 import { TruckDashCard } from "../../components/dashTruck/card";
 import { Preloader } from "../../components/preloader/preloader";
+import { Chart } from "../../components/Chart/chatr";
 
 
 export function DashBoard({ decode }) {
@@ -47,7 +48,9 @@ export function DashBoard({ decode }) {
           </div>
         </div>
         <div className="work_space">
-          <div className="graph"></div>
+          <div className="graph">
+            <Chart/>
+          </div>
           <div className="sub_menu">
             <div className="truck_menu">
               {trucks && trucks.length > 0 ? (

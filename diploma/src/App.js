@@ -8,6 +8,7 @@ import refreshToken from './service/refresh.service';
 import { TrucksPage } from './pages/trucks/trucks';
 import { Workers } from './pages/Workers/workers';
 import { Transfer } from './pages/Transfer/transfer';
+import { Map } from './pages/Map/map';
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
             <Route path="/trucks" element={<TrucksPage decode={decodedToken}/>}/>
             <Route path='/workers' element = {<Workers decode = {decodedToken}/>}/>
             <Route path = '/transfers' element = {<Transfer decode = {decodedToken}/>}/>
+            <Route path ='/map' element = {<Map/>}/>
           </Routes>
         </Router>
       </div>
